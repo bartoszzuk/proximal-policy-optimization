@@ -1,2 +1,15 @@
-gym
-torch
+# Reinforcement Learning
+gymnasium~=0.27.1
+
+# Deep Learning
+torch~=1.13.1
+
+# Data manipulation
+numpy~=1.24.2
+
+# Visualization
+matplotlib
+moviepy
+
+# Utilities
+toml
