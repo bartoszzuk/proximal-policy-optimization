@@ -1,15 +1,17 @@
 import random
+import shutil
 from argparse import Namespace, ArgumentParser
 from dataclasses import asdict
 from pathlib import Path
 
 import gymnasium as gym
 import torch
-from gymnasium import wrappers
+from gymnasium import wrappers, Wrapper, Env
 
-from policy.dqn import DQNAgent
+from policy import figures
+from policy.dqn.agent import DQNAgent
 from policy.dqn.config import DQNConfig
-from policy.dqn import DQNTrainer
+from policy.dqn.trainer import DQNTrainer
 
 
 def parse_arguments(config: DQNConfig) -> Namespace:
@@ -44,8 +46,18 @@ def ensure_reproducibility(seed: int) -> None:
     torch.cuda.manual_seed_all(seed)
 
 
-def simple_episode_trigger(episode: int) -> bool:
-    return episode % 100 == 0
+def build_test_environment(environment) -> Env:
+    path = Path('out').absolute()
+
+    if path.exists() and path.is_dir():
+        shutil.rmtree(path)
+
+    return wrappers.RecordVideo(
+        env=environment,
+        video_folder=str(path),
+        name_prefix='lunar-video',
+        disable_logger=True
+    )
 
 
 def train() -> None:
@@ -58,20 +70,20 @@ def train() -> None:
 
     environment = gym.make("LunarLander-v2", max_episode_steps=config.max_steps, render_mode='rgb_array')
     environment = wrappers.RecordEpisodeStatistics(environment)
-    environment = wrappers.RecordVideo(
-        env=environment,
-        video_folder='out',
-        episode_trigger=simple_episode_trigger,
-        name_prefix='lunar-video',
-        disable_logger=True
-    )
 
     agent = DQNAgent(config)
 
     trainer = DQNTrainer(agent, config)
     trainer.fit(environment)
 
+    environment = build_test_environment(environment)
+
+    trainer.test(environment)
+
     environment.close()
+
+    figures.plot_recent_mean_scores(trainer)
+    figures.plot_recent_mean_steps(trainer)
 
 
 if __name__ == '__main__':
