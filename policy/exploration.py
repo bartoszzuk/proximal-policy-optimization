@@ -9,7 +9,7 @@ from policy.dqn.config import DQNConfig
 from policy.helpers import Trainable
 
 
-class PolicySelection(ABC):
+class Exploration(ABC):
 
     @abstractmethod
     def __call__(self, values: Tensor) -> int:
@@ -20,7 +20,7 @@ class PolicySelection(ABC):
         raise NotImplementedError()
 
 
-class EpsilonGreedy(PolicySelection, Trainable):
+class EpsilonGreedy(Exploration, Trainable):
 
     @classmethod
     def from_config(cls, config: DQNConfig) -> Self:

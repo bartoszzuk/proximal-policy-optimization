@@ -21,7 +21,7 @@ class DQNAgent(Trainable):
         self.config = config
 
         self.optimizer = Adam(self.policy_network.parameters(), lr=config.learning_rate)
-        self.policy_selection = EpsilonGreedy.from_config(config)
+        self.exploration = EpsilonGreedy.from_config(config)
 
     @torch.no_grad()
     def act(self, observation: np.ndarray) -> int:
@@ -33,7 +33,7 @@ class DQNAgent(Trainable):
         values = values.detach()
 
         # Policy selection e.g. Epsilon Greedy
-        return self.policy_selection(values)
+        return self.exploration(values)
 
     def update(self, batch: ExperienceBatch, gamma: float = None) -> None:
         batch = batch.to(DEVICE)
