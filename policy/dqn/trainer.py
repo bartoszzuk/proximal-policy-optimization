@@ -36,7 +36,7 @@ class DQNTrainer:
 
         for episode in range(1, self.config.episodes + 1):
             self.run_episode(environment, stage='fit')
-            self.agent.policy_selection.update()
+            self.agent.exploration.update()
 
             mean_score = compute_mean_score(environment)
             mean_steps = compute_mean_steps(environment)
@@ -47,7 +47,7 @@ class DQNTrainer:
             self.print_episode_statistics(episode)
 
             if mean_score >= self.config.max_score:
-                print(f'Environment solved - reached max score {self.config.max_score:.2f}! Stopping early ...')
+                print(f'\nEnvironment solved at episode {episode} (reached max score {self.config.max_score:.2f})')
                 break
 
     def print_episode_statistics(self, episode: int) -> None:
