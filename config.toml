@@ -1,6 +1,7 @@
 [DQNConfig]
-episodes = 800
+episodes = 1000
 max_steps = 1000
+max_score = 200
 replay_size = 10000
 batch_size = 64
 learning_rate = 0.0005

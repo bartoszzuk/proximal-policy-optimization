@@ -9,6 +9,7 @@ from typing_extensions import Self
 class DQNConfig:
     episodes: int
     max_steps: int
+    max_score: int
     replay_size: int
     batch_size: int
     learning_rate: float
