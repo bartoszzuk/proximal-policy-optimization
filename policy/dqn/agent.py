@@ -7,13 +7,15 @@ from policy.dqn.config import DQNConfig
 from policy.dqn.model import DQN
 from policy.dqn.replay import ExperienceBatch
 from policy.dqn.selection import EpsilonGreedy
+from policy.helpers import Trainable
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
 
-class DQNAgent:
+class DQNAgent(Trainable):
 
     def __init__(self, config: DQNConfig) -> None:
+        super().__init__()
         self.policy_network = DQN(config.observation_dim, config.action_dim).to(DEVICE)
         self.target_network = DQN(config.observation_dim, config.action_dim).to(DEVICE)
         self.config = config

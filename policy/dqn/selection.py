@@ -6,6 +6,7 @@ from torch import Tensor
 from typing_extensions import Self
 
 from policy.dqn.config import DQNConfig
+from policy.helpers import Trainable
 
 
 class PolicySelection(ABC):
@@ -19,21 +20,25 @@ class PolicySelection(ABC):
         raise NotImplementedError()
 
 
-class EpsilonGreedy(PolicySelection):
+class EpsilonGreedy(PolicySelection, Trainable):
 
     @classmethod
     def from_config(cls, config: DQNConfig) -> Self:
         return cls(config.epsilon_start, config.epsilon_end, config.epsilon_decay)
 
     def __init__(self, start: float, end: float, decay: float) -> None:
+        super().__init__()
         self.start = start
         self.end = end
         self.decay = decay
         self.step = 0
 
     def __call__(self, values: Tensor) -> int:
-        epsilon = self.start * self.decay ** self.step
-        epsilon = max(epsilon, self.end)
+        if self.mode == 'train':
+            epsilon = self.start * self.decay ** self.step
+            epsilon = max(epsilon, self.end)
+        else:
+            epsilon = self.end
 
         if random.random() > epsilon:
             action = torch.argmax(values).item()
