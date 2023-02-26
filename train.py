@@ -6,7 +6,7 @@ from pathlib import Path
 
 import gymnasium as gym
 import torch
-from gymnasium import wrappers, Wrapper, Env
+from gymnasium import wrappers, Env
 
 from policy import figures
 from policy.dqn.agent import DQNAgent
