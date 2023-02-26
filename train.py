@@ -8,10 +8,7 @@ import gymnasium as gym
 import torch
 from gymnasium import wrappers, Env
 
-from policy import figures
-from policy.dqn.agent import DQNAgent
-from policy.dqn.config import DQNConfig
-from policy.dqn.trainer import DQNTrainer
+from policy import figures, DQNConfig, DQNAgent, DQNTrainer
 
 
 def parse_arguments(config: DQNConfig) -> Namespace:
