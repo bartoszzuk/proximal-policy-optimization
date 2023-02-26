@@ -5,7 +5,7 @@ import torch
 from torch import Tensor
 from typing_extensions import Self
 
-from dqn.config import DQNConfig
+from policy.dqn.config import DQNConfig
 
 
 class PolicySelection(ABC):

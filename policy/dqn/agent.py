@@ -3,10 +3,10 @@ import torch
 from torch.nn import functional
 from torch.optim import Adam
 
-from dqn.config import DQNConfig
-from dqn.model import DQN
-from dqn.replay import ExperienceBatch
-from dqn.selection import EpsilonGreedy
+from policy.dqn.config import DQNConfig
+from policy.dqn.model import DQN
+from policy.dqn.replay import ExperienceBatch
+from policy.dqn.selection import EpsilonGreedy
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 

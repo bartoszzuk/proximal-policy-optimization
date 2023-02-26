@@ -7,9 +7,9 @@ import gymnasium as gym
 import torch
 from gymnasium import wrappers
 
-from dqn.agent import DQNAgent
-from dqn.config import DQNConfig
-from dqn.trainer import DQNTrainer
+from policy.dqn import DQNAgent
+from policy.dqn.config import DQNConfig
+from policy.dqn import DQNTrainer
 
 
 def parse_arguments(config: DQNConfig) -> Namespace:
@@ -60,7 +60,7 @@ def train() -> None:
     environment = wrappers.RecordEpisodeStatistics(environment)
     environment = wrappers.RecordVideo(
         env=environment,
-        video_folder='videos',
+        video_folder='out',
         episode_trigger=simple_episode_trigger,
         name_prefix='lunar-video',
         disable_logger=True

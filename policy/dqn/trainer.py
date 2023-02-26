@@ -3,9 +3,9 @@ from typing import Literal
 
 from gymnasium import Env, Wrapper
 
-from dqn.agent import DQNAgent
-from dqn.config import DQNConfig
-from dqn.replay import ExperienceReplay, Experience
+from policy.dqn.agent import DQNAgent
+from policy.dqn.config import DQNConfig
+from policy.dqn.replay import ExperienceReplay, Experience
 
 
 def print_episode_statistics(environment: Env | Wrapper, episode: int) -> None:
